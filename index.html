@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>⚠️ SYSTEM ALERT ⚠️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background: black;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .screen {
+            background: #000000cc;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .alert-box {
+            background: #1a1a1a;
+            border: 3px solid #ff0000;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 50px red;
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .warning-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 5px red; }
+            100% { text-shadow: 0 0 25px red; }
+        }
+
+        h1 {
+            color: #ff0000;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            color: #00ff00;
+            font-size: 16px;
+            margin: 15px 0;
+            background: #00000099;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background: #333;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 25px;
+            background: #ff0000;
+            transition: width 0.1s linear;
+        }
+
+        button {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 30px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #cc0000;
+            transform: scale(1.02);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fake-files {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: #0f0;
+            font-size: 10px;
+            z-index: 1;
+        }
+
+        .blink {
+            animation: blinkText 0.5s step-end infinite;
+        }
+
+        @keyframes blinkText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+<div class="screen" id="mainScreen">
+    <div class="alert-box">
+        <div class="warning-icon">⚠️💀⚠️</div>
+        <h1>!!! VIRUS DETECTED !!!</h1>
+        <div class="message" id="statusMsg">Initializing system scan...</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div id="countdownMsg" style="color: #ff6666; font-size: 12px;"></div>
+        <button id="fixBtn" class="hidden">CLICK HERE TO FIX</button>
+    </div>
+    <div class="fake-files" id="fakeFiles">Deleting system32...</div>
+</div>
+
+<script>
+    (function() {
+        // PRANK TOTAL — TIDAK ADA KERUSAKAN SISTEM, HANYA VISUAL + SUARA
+        let progress = 0;
+        const progressFill = document.getElementById('progressFill');
+        const statusMsg = document.getElementById('statusMsg');
+        const countdownDiv = document.getElementById('countdownMsg');
+        const fixBtn = document.getElementById('fixBtn');
+        const fakeFilesDiv = document.getElementById('fakeFiles');
+
+        // Fake file names untuk efek scary
+        const fakeMessages = [
+            "Scanning registry...",
+            "Found malicious entries: 12",
+            "Deleting boot.ini",
+            "Accessing C:\\Windows\\System32",
+            "Corrupting kernel32.dll",
+            "Injecting trojan: svchost.exe",
+            "Bypassing firewall",
+            "Stealing saved passwords",
+            "Encrypting personal files",
+            "Ransomware payload activated",
+            "Connecting to C2 server",
+            "Downloading additional malware",
+            "System will self-destruct in 5 seconds"
+        ];
+
+        let msgIndex = 0;
+        let interval;
+
+        function updateProgress() {
+            progress += Math.floor(Math.random() * 5) + 2;
+            if (progress > 100) progress = 100;
+            progressFill.style.width = progress + "%";
+
+            if (msgIndex < fakeMessages.length) {
+                statusMsg.innerHTML = fakeMessages[msgIndex];
+                msgIndex++;
+            } else {
+                statusMsg.innerHTML = "💀 SYSTEM CORRUPTED 💀";
+            }
+
+            // Ganti fake files random
+            const filesList = [
+                "Deleting C:\\Windows\\System32\\config\\SAM",
+                "Formatting D:\\",
+                "Corrupting MBR",
+                "Sending data to hacker",
+                "Installing keylogger",
+                "Webcam activated"
+            ];
+            fakeFilesDiv.innerHTML = filesList[Math.floor(Math.random() * filesList.length)];
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                statusMsg.innerHTML = "⚠️ SYSTEM FAILURE ⚠️";
+                fakeFilesDiv.innerHTML = "ALL DATA CORRUPTED. DEVICE LOCKED.";
+                let countdown = 5;
+                countdownDiv.innerHTML = `Self-destruct in ${countdown} seconds... Press FIX if you dare.`;
+                fixBtn.classList.remove("hidden");
+                
+                const countdownInterval = setInterval(() => {
+                    countdown--;
+                    countdownDiv.innerHTML = `Self-destruct in ${countdown} seconds... Press FIX if you dare.`;
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        countdownDiv.innerHTML = "💥 KABOOOM! 💥 Just kidding, it's a prank! 😂";
+                        statusMsg.innerHTML = "✨ PRANK SUCCESS! No harm done. ✨";
+                        fakeFilesDiv.innerHTML = "Your files are safe. This was just for laughs.";
+                        fixBtn.classList.add('hidden');
+                    }
+                }, 1000);
+            }
+        }
+
+        // Mulai prank
+        interval = setInterval(updateProgress, 300);
+
+        // Tombol fix: cuma ganti pesan lucu
+        fixBtn.onclick = function() {
+            clearInterval(interval);
+            statusMsg.innerHTML = "🔧 FIXING... Just kidding! It's a prank 🔧";
+            fakeFilesDiv.innerHTML = "You clicked fix, but everything was fake from the start. 🤣";
+            progressFill.style.background = "#00ff00";
+            progressFill.style.width = "100%";
+            countdownDiv.innerHTML = "Prank berhasil! Tidak ada virus, hanya hiburan. 😎";
+            fixBtn.disabled = true;
+            fixBtn.innerText = "ALREADY FIXED (PRANK OVER)";
+            setTimeout(() => {
+                alert("🎉 PRANK! 🎉\nTidak ada malware sungguhan. Tenang dan tertawalah.");
+            }, 500);
+        };
+
+        // Efek suara (optional, tapi perlu izin user)
+        try {
+            let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            // tidak memutar suara otomatis karena browser block autoplay
+        } catch(e) {}
+
+        // Mencegah user keluar dari halaman dengan mudah (cuma prank)
+        window.onbeforeunload = function() {
+            if (progress < 100) {
+                return "⚠️ System scan in progress. Leaving may cause data loss! (Prank)";
+            }
+        };
+    })();
+</script>
+</body>
+</html>
